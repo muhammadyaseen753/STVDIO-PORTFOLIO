@@ -1,0 +1,1071 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>STVDIO™ — Web & Motion Design</title>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  :root {
+    --black: #080808;
+    --white: #f0ede6;
+    --acid: #c8f53c;
+    --red: #e8321e;
+    --muted: #4a4a4a;
+    --border: rgba(240,237,230,0.12);
+  }
+
+  html { scroll-behavior: smooth; }
+
+  body {
+    background: var(--black);
+    color: var(--white);
+    font-family: 'Space Grotesk', sans-serif;
+    overflow-x: hidden;
+    cursor: none;
+  }
+
+  /* CURSOR */
+  .cursor {
+    width: 10px; height: 10px;
+    background: var(--acid);
+    border-radius: 50%;
+    position: fixed;
+    top: 0; left: 0;
+    pointer-events: none;
+    z-index: 9999;
+    transform: translate(-50%, -50%);
+    transition: transform 0.1s, width 0.2s, height 0.2s;
+    mix-blend-mode: difference;
+  }
+  .cursor-ring {
+    width: 36px; height: 36px;
+    border: 1px solid var(--acid);
+    border-radius: 50%;
+    position: fixed;
+    top: 0; left: 0;
+    pointer-events: none;
+    z-index: 9998;
+    transform: translate(-50%, -50%);
+    transition: transform 0.15s ease-out, width 0.2s, height 0.2s, opacity 0.2s;
+    mix-blend-mode: difference;
+    opacity: 0.7;
+  }
+
+  /* NAV */
+  nav {
+    position: fixed;
+    top: 0; left: 0; right: 0;
+    z-index: 100;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 24px 48px;
+    mix-blend-mode: normal;
+  }
+  .nav-logo {
+    font-family: 'Space Mono', monospace;
+    font-size: 13px;
+    letter-spacing: 0.08em;
+    color: var(--white);
+    text-decoration: none;
+  }
+  .nav-logo span { color: var(--acid); }
+  .nav-links {
+    display: flex;
+    gap: 36px;
+    list-style: none;
+  }
+  .nav-links a {
+    font-family: 'Space Mono', monospace;
+    font-size: 11px;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    color: rgba(240,237,230,0.5);
+    text-decoration: none;
+    transition: color 0.2s;
+    position: relative;
+  }
+  .nav-links a::after {
+    content: '';
+    position: absolute;
+    bottom: -2px; left: 0; right: 100%;
+    height: 1px;
+    background: var(--acid);
+    transition: right 0.25s ease;
+  }
+  .nav-links a:hover { color: var(--white); }
+  .nav-links a:hover::after { right: 0; }
+  .nav-cta {
+    font-family: 'Space Mono', monospace;
+    font-size: 11px;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    color: var(--black);
+    background: var(--acid);
+    padding: 10px 20px;
+    text-decoration: none;
+    transition: background 0.2s;
+  }
+  .nav-cta:hover { background: #d9ff4a; }
+
+  /* HERO */
+  .hero {
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-end;
+    padding: 0 48px 64px;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .hero-eyebrow {
+    font-family: 'Space Mono', monospace;
+    font-size: 11px;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--acid);
+    margin-bottom: 24px;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+  }
+  .hero-eyebrow::before {
+    content: '';
+    display: inline-block;
+    width: 40px;
+    height: 1px;
+    background: var(--acid);
+  }
+
+  .hero-title {
+    font-size: clamp(72px, 12vw, 180px);
+    font-weight: 700;
+    line-height: 0.88;
+    letter-spacing: -0.03em;
+    text-transform: uppercase;
+    position: relative;
+    margin-bottom: 48px;
+  }
+
+  .glitch {
+    position: relative;
+    display: inline-block;
+  }
+  .glitch::before,
+  .glitch::after {
+    content: attr(data-text);
+    position: absolute;
+    top: 0; left: 0;
+    width: 100%; height: 100%;
+  }
+  .glitch::before {
+    color: var(--red);
+    animation: glitch1 3s infinite step-start;
+    clip-path: polygon(0 0, 100% 0, 100% 35%, 0 35%);
+    transform: translate(-2px, 0);
+  }
+  .glitch::after {
+    color: var(--acid);
+    animation: glitch2 3s infinite step-start;
+    clip-path: polygon(0 65%, 100% 65%, 100% 100%, 0 100%);
+    transform: translate(2px, 0);
+  }
+  @keyframes glitch1 {
+    0%, 90%, 100% { transform: translate(-2px, 0); opacity: 0; }
+    92% { transform: translate(3px, 1px); opacity: 1; }
+    94% { transform: translate(-1px, -1px); opacity: 0.8; }
+    96% { transform: translate(0, 2px); opacity: 0; }
+  }
+  @keyframes glitch2 {
+    0%, 85%, 100% { transform: translate(2px, 0); opacity: 0; }
+    87% { transform: translate(-3px, -1px); opacity: 1; }
+    89% { transform: translate(1px, 1px); opacity: 0.8; }
+    91% { transform: translate(0, -1px); opacity: 0; }
+  }
+
+  .hero-sub {
+    display: flex;
+    align-items: flex-end;
+    justify-content: space-between;
+    gap: 48px;
+  }
+  .hero-desc {
+    max-width: 420px;
+    font-size: 16px;
+    line-height: 1.7;
+    color: rgba(240,237,230,0.6);
+  }
+  .hero-desc strong { color: var(--white); font-weight: 500; }
+  .hero-scroll {
+    font-family: 'Space Mono', monospace;
+    font-size: 11px;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    color: rgba(240,237,230,0.4);
+    writing-mode: vertical-rl;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+  }
+  .hero-scroll::before {
+    content: '';
+    display: block;
+    width: 1px;
+    height: 60px;
+    background: rgba(240,237,230,0.2);
+  }
+
+  /* NOISE TEXTURE */
+  .hero::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='0.04'/%3E%3C/svg%3E");
+    pointer-events: none;
+    z-index: 1;
+    opacity: 0.5;
+  }
+
+  /* MARQUEE */
+  .marquee-section {
+    border-top: 1px solid var(--border);
+    border-bottom: 1px solid var(--border);
+    padding: 18px 0;
+    overflow: hidden;
+    position: relative;
+  }
+  .marquee-track {
+    display: flex;
+    gap: 0;
+    animation: marquee 20s linear infinite;
+    width: max-content;
+  }
+  .marquee-section:hover .marquee-track { animation-play-state: paused; }
+  @keyframes marquee {
+    from { transform: translateX(0); }
+    to { transform: translateX(-50%); }
+  }
+  .marquee-item {
+    display: flex;
+    align-items: center;
+    gap: 32px;
+    padding: 0 32px;
+    font-family: 'Space Mono', monospace;
+    font-size: 12px;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: rgba(240,237,230,0.4);
+    white-space: nowrap;
+  }
+  .marquee-item .dot {
+    width: 5px; height: 5px;
+    border-radius: 50%;
+    background: var(--acid);
+    flex-shrink: 0;
+  }
+  .marquee-item.accent { color: var(--white); }
+
+  /* WORK */
+  .section { padding: 120px 48px; }
+  .section-header {
+    display: flex;
+    align-items: baseline;
+    justify-content: space-between;
+    margin-bottom: 64px;
+    padding-bottom: 20px;
+    border-bottom: 1px solid var(--border);
+  }
+  .section-num {
+    font-family: 'Space Mono', monospace;
+    font-size: 11px;
+    letter-spacing: 0.15em;
+    color: var(--acid);
+    margin-bottom: 8px;
+  }
+  .section-title {
+    font-size: clamp(32px, 5vw, 64px);
+    font-weight: 700;
+    letter-spacing: -0.02em;
+    text-transform: uppercase;
+    line-height: 1;
+  }
+  .section-link {
+    font-family: 'Space Mono', monospace;
+    font-size: 11px;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    color: rgba(240,237,230,0.5);
+    text-decoration: none;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    transition: color 0.2s;
+  }
+  .section-link:hover { color: var(--acid); }
+  .section-link svg { transition: transform 0.2s; }
+  .section-link:hover svg { transform: translate(3px, -3px); }
+
+  /* PROJECT GRID */
+  .projects-grid {
+    display: grid;
+    grid-template-columns: repeat(12, 1fr);
+    gap: 2px;
+  }
+  .project-card {
+    position: relative;
+    overflow: hidden;
+    background: #111;
+    cursor: none;
+  }
+  .project-card:nth-child(1) { grid-column: span 7; aspect-ratio: 16/10; }
+  .project-card:nth-child(2) { grid-column: span 5; aspect-ratio: 4/5; }
+  .project-card:nth-child(3) { grid-column: span 4; aspect-ratio: 1/1; }
+  .project-card:nth-child(4) { grid-column: span 8; aspect-ratio: 16/9; }
+
+  .project-bg {
+    position: absolute;
+    inset: 0;
+    background-size: cover;
+    background-position: center;
+    transition: transform 0.6s cubic-bezier(0.16, 1, 0.3, 1);
+    filter: grayscale(0.3) brightness(0.7);
+  }
+  .project-card:hover .project-bg {
+    transform: scale(1.06);
+    filter: grayscale(0) brightness(0.8);
+  }
+
+  /* Project placeholder gradients */
+  .bg-1 { background: linear-gradient(135deg, #1a0a2e 0%, #3d1040 50%, #6b1a4e 100%); }
+  .bg-2 { background: linear-gradient(135deg, #0a1a1e 0%, #103040 50%, #1a5060 100%); }
+  .bg-3 { background: linear-gradient(135deg, #1e1a0a 0%, #403010 50%, #604a1a 100%); }
+  .bg-4 { background: linear-gradient(135deg, #0e1a0a 0%, #203010 50%, #3a5020 100%); }
+
+  .project-overlay {
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(to top, rgba(8,8,8,0.85) 0%, transparent 60%);
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-end;
+    padding: 28px 32px;
+    opacity: 1;
+    transition: opacity 0.3s;
+  }
+  .project-tag {
+    font-family: 'Space Mono', monospace;
+    font-size: 10px;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    color: var(--acid);
+    margin-bottom: 8px;
+  }
+  .project-name {
+    font-size: 22px;
+    font-weight: 700;
+    letter-spacing: -0.01em;
+    text-transform: uppercase;
+    margin-bottom: 4px;
+  }
+  .project-type {
+    font-size: 13px;
+    color: rgba(240,237,230,0.5);
+  }
+
+  /* Abstract shapes in project cards */
+  .project-shape {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    opacity: 0.15;
+    pointer-events: none;
+  }
+
+  /* SERVICES */
+  .services-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 1px;
+    background: var(--border);
+    border: 1px solid var(--border);
+  }
+  .service-item {
+    background: var(--black);
+    padding: 48px 40px;
+    position: relative;
+    overflow: hidden;
+    transition: background 0.3s;
+  }
+  .service-item:hover { background: #0f0f0f; }
+  .service-num {
+    font-family: 'Space Mono', monospace;
+    font-size: 11px;
+    letter-spacing: 0.12em;
+    color: var(--muted);
+    margin-bottom: 32px;
+  }
+  .service-name {
+    font-size: 28px;
+    font-weight: 700;
+    letter-spacing: -0.01em;
+    text-transform: uppercase;
+    margin-bottom: 16px;
+    line-height: 1.1;
+  }
+  .service-desc {
+    font-size: 14px;
+    line-height: 1.7;
+    color: rgba(240,237,230,0.5);
+  }
+  .service-arrow {
+    position: absolute;
+    bottom: 40px;
+    right: 40px;
+    width: 40px;
+    height: 40px;
+    border: 1px solid var(--border);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: rgba(240,237,230,0.4);
+    transition: all 0.25s;
+  }
+  .service-item:hover .service-arrow {
+    background: var(--acid);
+    border-color: var(--acid);
+    color: var(--black);
+  }
+
+  /* ABOUT STRIP */
+  .about-strip {
+    background: var(--acid);
+    color: var(--black);
+    padding: 80px 48px;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 80px;
+    align-items: center;
+  }
+  .about-label {
+    font-family: 'Space Mono', monospace;
+    font-size: 11px;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    color: rgba(0,0,0,0.5);
+    margin-bottom: 24px;
+  }
+  .about-headline {
+    font-size: clamp(32px, 4vw, 52px);
+    font-weight: 700;
+    letter-spacing: -0.02em;
+    text-transform: uppercase;
+    line-height: 1.05;
+  }
+  .about-body {
+    font-size: 16px;
+    line-height: 1.75;
+    color: rgba(0,0,0,0.7);
+    margin-bottom: 40px;
+  }
+  .about-stats {
+    display: flex;
+    gap: 48px;
+  }
+  .stat-num {
+    font-size: 48px;
+    font-weight: 700;
+    letter-spacing: -0.03em;
+    color: var(--black);
+    line-height: 1;
+    margin-bottom: 4px;
+  }
+  .stat-label {
+    font-family: 'Space Mono', monospace;
+    font-size: 11px;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: rgba(0,0,0,0.5);
+  }
+  .about-cta {
+    display: inline-flex;
+    align-items: center;
+    gap: 12px;
+    font-family: 'Space Mono', monospace;
+    font-size: 12px;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--black);
+    text-decoration: none;
+    border: 1px solid rgba(0,0,0,0.3);
+    padding: 14px 24px;
+    margin-top: 40px;
+    transition: all 0.2s;
+  }
+  .about-cta:hover { background: var(--black); color: var(--acid); }
+
+  /* PROCESS */
+  .process-list { display: flex; flex-direction: column; }
+  .process-item {
+    display: grid;
+    grid-template-columns: 80px 1fr 200px;
+    gap: 48px;
+    padding: 40px 0;
+    border-bottom: 1px solid var(--border);
+    align-items: center;
+    position: relative;
+    overflow: hidden;
+    transition: padding-left 0.3s;
+  }
+  .process-item::before {
+    content: '';
+    position: absolute;
+    left: 0; top: 0; bottom: 0;
+    width: 0;
+    background: #0f0f0f;
+    z-index: 0;
+    transition: width 0.3s ease;
+  }
+  .process-item:hover::before { width: 100%; }
+  .process-item > * { position: relative; z-index: 1; }
+  .process-step {
+    font-family: 'Space Mono', monospace;
+    font-size: 12px;
+    letter-spacing: 0.1em;
+    color: var(--acid);
+  }
+  .process-name {
+    font-size: 28px;
+    font-weight: 700;
+    letter-spacing: -0.01em;
+    text-transform: uppercase;
+  }
+  .process-desc {
+    font-size: 13px;
+    line-height: 1.6;
+    color: rgba(240,237,230,0.5);
+  }
+
+  /* CONTACT */
+  .contact-section {
+    padding: 120px 48px;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 80px;
+    align-items: start;
+  }
+  .contact-big {
+    font-size: clamp(52px, 8vw, 120px);
+    font-weight: 700;
+    letter-spacing: -0.03em;
+    text-transform: uppercase;
+    line-height: 0.9;
+    margin-bottom: 40px;
+  }
+  .contact-big span { color: var(--acid); }
+  .contact-info { display: flex; flex-direction: column; gap: 8px; margin-top: 32px; }
+  .contact-link {
+    font-family: 'Space Mono', monospace;
+    font-size: 13px;
+    letter-spacing: 0.08em;
+    color: rgba(240,237,230,0.5);
+    text-decoration: none;
+    transition: color 0.2s;
+  }
+  .contact-link:hover { color: var(--acid); }
+
+  .contact-form { display: flex; flex-direction: column; gap: 0; }
+  .form-group { position: relative; border-bottom: 1px solid var(--border); }
+  .form-group:first-child { border-top: 1px solid var(--border); }
+  .form-group label {
+    display: block;
+    font-family: 'Space Mono', monospace;
+    font-size: 10px;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    color: var(--muted);
+    padding: 20px 0 6px;
+  }
+  .form-group input,
+  .form-group textarea {
+    width: 100%;
+    background: transparent;
+    border: none;
+    outline: none;
+    color: var(--white);
+    font-family: 'Space Grotesk', sans-serif;
+    font-size: 16px;
+    padding: 0 0 20px;
+    resize: none;
+  }
+  .form-group textarea { min-height: 100px; }
+  .form-group input::placeholder,
+  .form-group textarea::placeholder { color: rgba(240,237,230,0.2); }
+  .form-submit {
+    margin-top: 32px;
+    background: var(--white);
+    color: var(--black);
+    border: none;
+    padding: 18px 40px;
+    font-family: 'Space Mono', monospace;
+    font-size: 12px;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    cursor: none;
+    transition: background 0.2s;
+    align-self: flex-start;
+  }
+  .form-submit:hover { background: var(--acid); }
+
+  /* FOOTER */
+  footer {
+    border-top: 1px solid var(--border);
+    padding: 32px 48px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+  }
+  .footer-logo {
+    font-family: 'Space Mono', monospace;
+    font-size: 12px;
+    letter-spacing: 0.08em;
+  }
+  .footer-logo span { color: var(--acid); }
+  .footer-copy {
+    font-family: 'Space Mono', monospace;
+    font-size: 10px;
+    letter-spacing: 0.1em;
+    color: var(--muted);
+    text-transform: uppercase;
+  }
+  .footer-socials { display: flex; gap: 24px; }
+  .footer-socials a {
+    font-family: 'Space Mono', monospace;
+    font-size: 10px;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: rgba(240,237,230,0.4);
+    text-decoration: none;
+    transition: color 0.2s;
+  }
+  .footer-socials a:hover { color: var(--acid); }
+
+  /* Loader */
+  .loader {
+    position: fixed;
+    inset: 0;
+    background: var(--black);
+    z-index: 1000;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+    gap: 24px;
+  }
+  .loader-text {
+    font-family: 'Space Mono', monospace;
+    font-size: 11px;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--muted);
+  }
+  .loader-bar-wrap {
+    width: 200px;
+    height: 1px;
+    background: rgba(240,237,230,0.1);
+  }
+  .loader-bar {
+    height: 100%;
+    background: var(--acid);
+    width: 0%;
+    transition: width 0.05s linear;
+  }
+  .loader-num {
+    font-family: 'Space Mono', monospace;
+    font-size: 48px;
+    font-weight: 700;
+    color: var(--white);
+    line-height: 1;
+  }
+  .loader.hidden {
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 0.5s;
+  }
+
+  @media (max-width: 768px) {
+    nav { padding: 20px 24px; }
+    .nav-links { display: none; }
+    .hero { padding: 0 24px 48px; }
+    .hero-sub { flex-direction: column; }
+    .hero-scroll { display: none; }
+    .section { padding: 80px 24px; }
+    .section-header { flex-direction: column; gap: 20px; }
+    .projects-grid { grid-template-columns: 1fr; gap: 2px; }
+    .project-card:nth-child(n) { grid-column: span 1; aspect-ratio: 4/3; }
+    .services-grid { grid-template-columns: 1fr; }
+    .about-strip { grid-template-columns: 1fr; gap: 40px; padding: 60px 24px; }
+    .contact-section { grid-template-columns: 1fr; padding: 80px 24px; gap: 48px; }
+    .process-item { grid-template-columns: 60px 1fr; }
+    .process-desc { display: none; }
+    footer { flex-wrap: wrap; gap: 20px; }
+  }
+</style>
+</head>
+<body>
+
+<!-- Loader -->
+<div class="loader" id="loader">
+  <div class="loader-num" id="loaderNum">0</div>
+  <div class="loader-bar-wrap"><div class="loader-bar" id="loaderBar"></div></div>
+  <div class="loader-text">Loading Studio</div>
+</div>
+
+<!-- Cursor -->
+<div class="cursor" id="cursor"></div>
+<div class="cursor-ring" id="cursorRing"></div>
+
+<!-- NAV -->
+<nav>
+  <a href="#" class="nav-logo">STVDIO<span>™</span></a>
+  <ul class="nav-links">
+    <li><a href="#work">Work</a></li>
+    <li><a href="#services">Services</a></li>
+    <li><a href="#about">About</a></li>
+    <li><a href="#contact">Contact</a></li>
+  </ul>
+  <a href="mailto:hello@stvdio.com" class="nav-cta">Let's talk</a>
+</nav>
+
+<!-- HERO -->
+<section class="hero" id="hero">
+  <div class="hero-eyebrow">Available for projects — 2025</div>
+  <h1 class="hero-title">
+    <div class="glitch" data-text="CRAFT">CRAFT</div><br>
+    <div class="glitch" data-text="YOUR">YOUR</div><br>
+    <span style="color: var(--acid)">WORLD.</span>
+  </h1>
+  <div class="hero-sub">
+    <p class="hero-desc">
+      <strong>STVDIO™</strong> is a web and motion design studio crafting immersive digital identities for brands that defy the status quo.
+    </p>
+    <div class="hero-scroll">Scroll to explore</div>
+  </div>
+</section>
+
+<!-- MARQUEE -->
+<div class="marquee-section">
+  <div class="marquee-track" id="marquee">
+    <div class="marquee-item"><span class="dot"></span><span>Web Design</span></div>
+    <div class="marquee-item accent"><span class="dot"></span><span>Motion & Animation</span></div>
+    <div class="marquee-item"><span class="dot"></span><span>Brand Identity</span></div>
+    <div class="marquee-item accent"><span class="dot"></span><span>Framer Development</span></div>
+    <div class="marquee-item"><span class="dot"></span><span>Digital Strategy</span></div>
+    <div class="marquee-item accent"><span class="dot"></span><span>UI / UX Design</span></div>
+    <div class="marquee-item"><span class="dot"></span><span>Creative Direction</span></div>
+    <div class="marquee-item accent"><span class="dot"></span><span>Art Direction</span></div>
+    <!-- duplicate for seamless loop -->
+    <div class="marquee-item"><span class="dot"></span><span>Web Design</span></div>
+    <div class="marquee-item accent"><span class="dot"></span><span>Motion & Animation</span></div>
+    <div class="marquee-item"><span class="dot"></span><span>Brand Identity</span></div>
+    <div class="marquee-item accent"><span class="dot"></span><span>Framer Development</span></div>
+    <div class="marquee-item"><span class="dot"></span><span>Digital Strategy</span></div>
+    <div class="marquee-item accent"><span class="dot"></span><span>UI / UX Design</span></div>
+    <div class="marquee-item"><span class="dot"></span><span>Creative Direction</span></div>
+    <div class="marquee-item accent"><span class="dot"></span><span>Art Direction</span></div>
+  </div>
+</div>
+
+<!-- WORK -->
+<section class="section" id="work">
+  <div class="section-header">
+    <div>
+      <div class="section-num">01</div>
+      <h2 class="section-title">Selected Work</h2>
+    </div>
+    <a href="#" class="section-link">
+      View all projects
+      <svg width="14" height="14" viewBox="0 0 14 14" fill="none">
+        <path d="M2 12L12 2M12 2H4M12 2V10" stroke="currentColor" stroke-width="1.5"/>
+      </svg>
+    </a>
+  </div>
+
+  <div class="projects-grid">
+    <div class="project-card">
+      <div class="project-bg bg-1"></div>
+      <svg class="project-shape" width="300" height="300" viewBox="0 0 300 300">
+        <circle cx="150" cy="150" r="100" stroke="#c8f53c" stroke-width="1" fill="none"/>
+        <circle cx="150" cy="150" r="60" stroke="#e8321e" stroke-width="1" fill="none"/>
+        <line x1="50" y1="150" x2="250" y2="150" stroke="white" stroke-width="0.5" opacity="0.3"/>
+        <line x1="150" y1="50" x2="150" y2="250" stroke="white" stroke-width="0.5" opacity="0.3"/>
+      </svg>
+      <div class="project-overlay">
+        <div class="project-tag">Brand Identity · Web</div>
+        <div class="project-name">Noir Atelier</div>
+        <div class="project-type">Fashion & Luxury</div>
+      </div>
+    </div>
+    <div class="project-card">
+      <div class="project-bg bg-2"></div>
+      <svg class="project-shape" width="250" height="250" viewBox="0 0 250 250">
+        <rect x="50" y="50" width="150" height="150" stroke="#c8f53c" stroke-width="1" fill="none" transform="rotate(15 125 125)"/>
+        <rect x="75" y="75" width="100" height="100" stroke="white" stroke-width="0.5" fill="none" transform="rotate(-15 125 125)" opacity="0.4"/>
+      </svg>
+      <div class="project-overlay">
+        <div class="project-tag">Motion · 3D</div>
+        <div class="project-name">Synth AI</div>
+        <div class="project-type">Technology</div>
+      </div>
+    </div>
+    <div class="project-card">
+      <div class="project-bg bg-3"></div>
+      <svg class="project-shape" width="200" height="200" viewBox="0 0 200 200">
+        <polygon points="100,20 180,160 20,160" stroke="#c8f53c" stroke-width="1" fill="none"/>
+        <polygon points="100,50 155,145 45,145" stroke="white" stroke-width="0.5" fill="none" opacity="0.4"/>
+      </svg>
+      <div class="project-overlay">
+        <div class="project-tag">Web Design</div>
+        <div class="project-name">Coppelia</div>
+        <div class="project-type">Music & Art</div>
+      </div>
+    </div>
+    <div class="project-card">
+      <div class="project-bg bg-4"></div>
+      <svg class="project-shape" width="350" height="200" viewBox="0 0 350 200">
+        <ellipse cx="175" cy="100" rx="130" ry="70" stroke="#c8f53c" stroke-width="1" fill="none"/>
+        <ellipse cx="175" cy="100" rx="80" ry="40" stroke="white" stroke-width="0.5" fill="none" opacity="0.4"/>
+        <line x1="45" y1="100" x2="305" y2="100" stroke="white" stroke-width="0.5" opacity="0.2"/>
+      </svg>
+      <div class="project-overlay">
+        <div class="project-tag">Identity · Strategy</div>
+        <div class="project-name">Volta Labs</div>
+        <div class="project-type">Biotech & Science</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- SERVICES -->
+<section class="section" id="services" style="padding-top: 0;">
+  <div class="section-header">
+    <div>
+      <div class="section-num">02</div>
+      <h2 class="section-title">What We Do</h2>
+    </div>
+  </div>
+  <div class="services-grid">
+    <div class="service-item">
+      <div class="service-num">01 — Design</div>
+      <div class="service-name">Web<br>Design</div>
+      <p class="service-desc">Immersive websites that blend craft and performance. Every pixel has a reason.</p>
+      <div class="service-arrow">
+        <svg width="14" height="14" viewBox="0 0 14 14" fill="none"><path d="M2 12L12 2M12 2H4M12 2V10" stroke="currentColor" stroke-width="1.5"/></svg>
+      </div>
+    </div>
+    <div class="service-item">
+      <div class="service-num">02 — Motion</div>
+      <div class="service-name">Motion &<br>Animation</div>
+      <p class="service-desc">Kinetic interfaces and brand films that make people feel something real.</p>
+      <div class="service-arrow">
+        <svg width="14" height="14" viewBox="0 0 14 14" fill="none"><path d="M2 12L12 2M12 2H4M12 2V10" stroke="currentColor" stroke-width="1.5"/></svg>
+      </div>
+    </div>
+    <div class="service-item">
+      <div class="service-num">03 — Identity</div>
+      <div class="service-name">Brand<br>Identity</div>
+      <p class="service-desc">Visual systems with enough character to survive any medium, any era.</p>
+      <div class="service-arrow">
+        <svg width="14" height="14" viewBox="0 0 14 14" fill="none"><path d="M2 12L12 2M12 2H4M12 2V10" stroke="currentColor" stroke-width="1.5"/></svg>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ABOUT -->
+<div class="about-strip" id="about">
+  <div>
+    <div class="about-label">About the Studio</div>
+    <h2 class="about-headline">Built for Brands<br>That Break Rules</h2>
+  </div>
+  <div>
+    <p class="about-body">We're a small, obsessive team of designers and motion artists. We don't do generic. We dig into your world, find what's singular about it, and build something that can't be mistaken for anyone else.</p>
+    <div class="about-stats">
+      <div>
+        <div class="stat-num">40+</div>
+        <div class="stat-label">Projects</div>
+      </div>
+      <div>
+        <div class="stat-num">5</div>
+        <div class="stat-label">Years</div>
+      </div>
+      <div>
+        <div class="stat-num">18</div>
+        <div class="stat-label">Countries</div>
+      </div>
+    </div>
+    <a href="#contact" class="about-cta">
+      Work with us
+      <svg width="14" height="14" viewBox="0 0 14 14" fill="none"><path d="M2 12L12 2M12 2H4M12 2V10" stroke="currentColor" stroke-width="1.5"/></svg>
+    </a>
+  </div>
+</div>
+
+<!-- PROCESS -->
+<section class="section">
+  <div class="section-header">
+    <div>
+      <div class="section-num">03</div>
+      <h2 class="section-title">Our Process</h2>
+    </div>
+  </div>
+  <div class="process-list">
+    <div class="process-item">
+      <div class="process-step">01</div>
+      <div class="process-name">Discovery</div>
+      <div class="process-desc">We listen before we design. Deep dive into your world, your users, and what makes you unmistakable.</div>
+    </div>
+    <div class="process-item">
+      <div class="process-step">02</div>
+      <div class="process-name">Concept</div>
+      <div class="process-desc">Art direction, visual strategy, and moodboards built around your specific brief — not a template.</div>
+    </div>
+    <div class="process-item">
+      <div class="process-step">03</div>
+      <div class="process-name">Design</div>
+      <div class="process-desc">High-fidelity execution. Every frame, every interaction, every word considered.</div>
+    </div>
+    <div class="process-item">
+      <div class="process-step">04</div>
+      <div class="process-name">Launch</div>
+      <div class="process-desc">Ship fast, test thoroughly, and stay available. We don't disappear after handoff.</div>
+    </div>
+  </div>
+</section>
+
+<!-- CONTACT -->
+<section class="contact-section" id="contact">
+  <div>
+    <h2 class="contact-big">Let's<br><span>Talk.</span></h2>
+    <div class="contact-info">
+      <a href="mailto:hello@stvdio.com" class="contact-link">hello@stvdio.com</a>
+      <a href="https://instagram.com" class="contact-link">Instagram</a>
+      <a href="https://linkedin.com" class="contact-link">LinkedIn</a>
+      <a href="https://dribbble.com" class="contact-link">Dribbble</a>
+    </div>
+  </div>
+  <form class="contact-form" onsubmit="return false;">
+    <div class="form-group">
+      <label>Your Name</label>
+      <input type="text" placeholder="Alex Rivera">
+    </div>
+    <div class="form-group">
+      <label>Email</label>
+      <input type="email" placeholder="alex@company.com">
+    </div>
+    <div class="form-group">
+      <label>What are you building?</label>
+      <textarea placeholder="Tell us about your project..."></textarea>
+    </div>
+    <button class="form-submit">Send Message →</button>
+  </form>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <div class="footer-logo">STVDIO<span>™</span></div>
+  <div class="footer-copy">© 2025 — All rights reserved</div>
+  <div class="footer-socials">
+    <a href="#">IG</a>
+    <a href="#">LI</a>
+    <a href="#">DR</a>
+    <a href="#">TW</a>
+  </div>
+</footer>
+
+<script>
+  // Loader
+  let progress = 0;
+  const bar = document.getElementById('loaderBar');
+  const num = document.getElementById('loaderNum');
+  const loader = document.getElementById('loader');
+  const interval = setInterval(() => {
+    progress += Math.random() * 8 + 4;
+    if (progress >= 100) {
+      progress = 100;
+      clearInterval(interval);
+      setTimeout(() => { loader.classList.add('hidden'); }, 300);
+    }
+    bar.style.width = progress + '%';
+    num.textContent = Math.floor(progress);
+  }, 60);
+
+  // Custom cursor
+  const cursor = document.getElementById('cursor');
+  const ring = document.getElementById('cursorRing');
+  let mx = 0, my = 0, rx = 0, ry = 0;
+
+  document.addEventListener('mousemove', e => {
+    mx = e.clientX; my = e.clientY;
+    cursor.style.left = mx + 'px';
+    cursor.style.top = my + 'px';
+  });
+
+  function animRing() {
+    rx += (mx - rx) * 0.12;
+    ry += (my - ry) * 0.12;
+    ring.style.left = rx + 'px';
+    ring.style.top = ry + 'px';
+    requestAnimationFrame(animRing);
+  }
+  animRing();
+
+  // Cursor scale on hover
+  document.querySelectorAll('a, button, .project-card, .service-item, .process-item').forEach(el => {
+    el.addEventListener('mouseenter', () => {
+      cursor.style.width = '20px';
+      cursor.style.height = '20px';
+      ring.style.width = '60px';
+      ring.style.height = '60px';
+    });
+    el.addEventListener('mouseleave', () => {
+      cursor.style.width = '10px';
+      cursor.style.height = '10px';
+      ring.style.width = '36px';
+      ring.style.height = '36px';
+    });
+  });
+
+  // Scroll-triggered fade-in
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach(e => {
+      if (e.isIntersecting) {
+        e.target.style.opacity = '1';
+        e.target.style.transform = 'translateY(0)';
+      }
+    });
+  }, { threshold: 0.1 });
+
+  document.querySelectorAll('.project-card, .service-item, .process-item').forEach(el => {
+    el.style.opacity = '0';
+    el.style.transform = 'translateY(24px)';
+    el.style.transition = 'opacity 0.6s ease, transform 0.6s ease';
+    observer.observe(el);
+  });
+
+  // Form submit
+  document.querySelector('.form-submit').addEventListener('click', function() {
+    this.textContent = 'Message Sent ✓';
+    this.style.background = '#c8f53c';
+    setTimeout(() => {
+      this.textContent = 'Send Message →';
+      this.style.background = '';
+    }, 2500);
+  });
+</script>
+</body>
+</html>
